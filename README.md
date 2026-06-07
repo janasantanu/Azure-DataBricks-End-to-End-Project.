@@ -1,1 +1,2 @@
 # Azure-DataBricks-End-to-End-Project.
+This project implements a Medallion Architecture (Bronze, Silver, and Gold layers) using Azure Databricks. Data is ingested from Parquet files, processed through a scalable ETL pipeline, and transformed into curated datasets. In the Gold layer, a Star Schema is designed with fact and dimension tables to optimize data for analytics and reporting. This structure enables efficient querying and supports business intelligence dashboards.
