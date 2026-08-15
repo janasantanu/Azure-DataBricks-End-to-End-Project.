@@ -22,7 +22,7 @@ The project uses **Databricks notebooks, PySpark, Delta Lake, Databricks SQL, Au
 
 ## 🏗️ Architecture
 
-```text
+```
                     ┌──────────────────────┐
                     │      Parameters      │
                     │   file_name / jobs   │
@@ -74,7 +74,7 @@ The project uses **Databricks notebooks, PySpark, Delta Lake, Databricks SQL, Au
 
 The project contains the following Parquet files:
 
-```text
+```
 customer_first.parquet
 customers_second.parquet
 
@@ -145,7 +145,7 @@ The customer data is read from the Bronze layer and:
 6. Writes the result as a Delta dataset
 7. Registers the Delta location as:
 
-```text
+```
 project_cata.silver.customers_silver
 ```
 
@@ -174,7 +174,7 @@ The orders data is:
 6. The transformed data is written as Delta
 7. Registered as:
 
-```text
+```
 project_cata.silver.orders_silver
 ```
 
@@ -197,7 +197,7 @@ The products data is:
 3. A SQL UDF named `discount_func` is created
 4. The UDF calculates a 10% discount:
 
-```text
+```
 discounted_price = price * 0.90
 ```
 
@@ -205,7 +205,7 @@ discounted_price = price * 0.90
 6. The result is stored as Delta
 7. Registered as:
 
-```text
+```
 project_cata.silver.products_silver
 ```
 
@@ -219,13 +219,13 @@ Notebook: `silver_Region.py`
 
 The regions data is read from the Databricks Bronze schema, `_rescued_data` is removed, and the result is written as Delta to:
 
-```text
+```
 abfss://silver@projecte2e.dfs.core.windows.net/regions
 ```
 
 It is then registered as:
 
-```text
+```
 project_cata.silver.regions_silver
 ```
 
@@ -239,13 +239,11 @@ The Gold layer contains business-ready dimensional and fact structures.
 
 The project creates:
 
-```text
+```
 DimCustomers
 DimProducts
 FactOrders
 ```
-
----
 
 # 👤 Gold Customers — SCD Type 1
 
@@ -265,7 +263,7 @@ The customer Silver table is used as the source.
 7. Combine new and existing records
 8. Apply an **SCD Type 1** merge into:
 
-```text
+```
 project_cata.gold_schema.DimCustomers
 ```
 
@@ -345,13 +343,13 @@ The Fact Orders table combines order data with customer and product dimensions.
 
 Orders are read from:
 
-```text
+```
 project_cata.silver.orders_silver
 ```
 
 Customer dimension keys are obtained from:
 
-```text
+```
 project_cata.gold_schema.dimcustomers
 ```
 
@@ -378,7 +376,7 @@ abfss://gold@projecte2e.dfs.core.windows.net/Factorders
 
 and registered as:
 
-```text
+```
 project_cata.gold_schema.Factorders
 ```
 
@@ -388,7 +386,7 @@ If the Fact Orders table already exists, Delta Lake `MERGE` is used.
 
 The merge condition is based on:
 
-```text
+```
 order_id
 DimCustomerKey
 DimProductKey
@@ -430,7 +428,7 @@ The project uses Azure Data Lake Storage Gen2 containers/folders for the differe
 
 Conceptually:
 
-```text
+```
 Azure Data Lake Storage
 │
 ├── source/
@@ -464,7 +462,7 @@ The project uses the `project_cata` catalog.
 
 Main objects include:
 
-```text
+```
 project_cata
 │
 ├── bronze
@@ -513,7 +511,7 @@ This project demonstrates several important real-world data engineering concepts
 
 ### 1. Medallion Architecture
 
-```text
+```
 Bronze → Silver → Gold
 ```
 
@@ -546,7 +544,7 @@ The customer dimension generates a `DimCustomerKey`.
 
 The project demonstrates:
 
-```text
+```
 DimCustomers → SCD Type 1
 DimProducts  → SCD Type 2
 ```
@@ -653,9 +651,3 @@ The primary objective of this project is to build a scalable cloud data pipeline
 - Implements data quality expectations
 - Creates a business-ready Fact table
 - Demonstrates parameterized and reusable ingestion
-
----
-
-## ⚠️ Notes
-
-This README describes the implementation represented by the supplied Databricks notebooks and architecture screenshots. Some notebook code is demonstration/project code and may require environment-specific changes before execution, such as Azure storage account/container names, catalog/schema names, permissions, and Databricks pipeline configuration.
